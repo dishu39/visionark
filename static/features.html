@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Features & Use Cases - VISIONARK</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <nav>
+        <a href="index.html" class="logo">VISIONARK</a>
+        <div class="links">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="features.html" class="active">Features</a>
+            <a href="demo.html">Demo</a>
+            <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">☀️</button>
+        </div>
+    </nav>
+
+    <main>
+        <section style="padding-top: 150px;">
+            <h1 class="title-gradient" style="font-size: 3.5em; text-align: center;">Core Features</h1>
+            
+            <div class="grid-container">
+                <div class="card" style="text-align: center;">
+                    <div style="font-size:40px; margin-bottom:10px;">👁️</div>
+                    <h3>Caption Generation</h3>
+                    <p>Sub-second inference mapping high-dimensional image vectors to descriptive linguistic patterns using BLIP architectures.</p>
+                </div>
+                <div class="card" style="text-align: center;">
+                    <div style="font-size:40px; margin-bottom:10px;">🛡️</div>
+                    <h3>Noise Reduction</h3>
+                    <p>Industry-leading NLM and Bilateral filtering preprocesses degraded visuals automatically before analysis.</p>
+                </div>
+                <div class="card" style="text-align: center;">
+                    <div style="font-size:40px; margin-bottom:10px;">🎛️</div>
+                    <h3>Dynamic Inference</h3>
+                    <p>Take control of beam-search trajectory, temperature scaling, and context window token limits securely.</p>
+                </div>
+            </div>
+            
+            <h1 class="title-gradient" style="font-size: 3.5em; text-align: center; margin-top: 100px;">Use Cases</h1>
+            <div class="grid-container" style="gap:50px;">
+                <div class="card">
+                    <img src="assets/usecase_health_1776836898652.png" alt="Healthcare AI">
+                    <h3>Healthcare</h3>
+                    <p>Analyzing complex medical imaging scenarios. Assisting diagnosticians with fast, descriptive metadata generation.</p>
+                </div>
+                <div class="card">
+                    <img src="assets/usecase_auto_1776836920055.png" alt="Autonomous Vehicles">
+                    <h3>Autonomous Vehicles</h3>
+                    <p>Transforming immediate dashcam pixel frames into actionable linguistic data to predict pedestrian movement and object bounds.</p>
+                </div>
+                <div class="card">
+                    <img src="assets/usecase_glasses_1776837715586.png" alt="Smart Glasses Accessibility">
+                    <h3>Accessibility & Wearables</h3>
+                    <p>Live, real-time captioning for blind and visually impaired users when integrated with hardware like Meta Smart Glasses, converting visual scenes into audio-ready semantic data streams.</p>
+                </div>
+            </div>
+            
+            <h1 class="title-gradient" style="font-size: 3em; text-align: center; margin-top: 100px;">Latest Blogs & Insights</h1>
+            <div class="grid-container" style="gap:30px; margin-top:30px;">
+                <div class="card" style="padding: 20px;">
+                    <h3 style="font-size: 1.3em;">Training Models for Wearable AR</h3>
+                    <p style="font-size: 0.9em; margin-bottom:15px;">Discover how proper resource allocation and model distillation allow us to fit complex captioning models directly inside wearable tech.</p>
+                    <a href="blog-wearables.html" style="color:var(--primary); font-weight:600; text-decoration:none;">Read full article →</a>
+                </div>
+                <div class="card" style="padding: 20px;">
+                    <h3 style="font-size: 1.3em;">The Future of Assistive AI</h3>
+                    <p style="font-size: 0.9em; margin-bottom:15px;">An exploration of real-time latency optimization for visually impaired accessibility.</p>
+                    <a href="blog-assistive.html" style="color:var(--primary); font-weight:600; text-decoration:none;">Read full article →</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <h2 style="margin-bottom: 10px;" class="title-gradient">VISIONARK</h2>
+        <p>&copy; 2026 VISIONARK AI Labs. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function toggleTheme() {
+            const html = document.documentElement;
+            const btn = document.getElementById('themeToggle');
+            if(html.getAttribute('data-theme') === 'dark') {
+                html.setAttribute('data-theme', 'light');
+                btn.textContent = '🌙';
+                localStorage.setItem('theme', 'light');
+            } else {
+                html.setAttribute('data-theme', 'dark');
+                btn.textContent = '☀️';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        document.getElementById('themeToggle').textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+    </script>
+</body>
+</html>

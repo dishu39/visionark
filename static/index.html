@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VISIONARK - The Future of AI Image Captioning</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <nav>
+        <a href="index.html" class="logo">VISIONARK</a>
+        <div class="links">
+            <a href="index.html#home" class="active">Home</a>
+            <a href="about.html">About</a>
+            <a href="features.html">Features</a>
+            <a href="index.html#demo-preview">Demo</a>
+            <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">☀️</button>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="home" class="hero">
+            <img src="assets/hero_background_1776836852157.png" class="hero-bg" alt="Hero Background">
+            <h1>Seeing the Unseen.</h1>
+            <p>VISIONARK is an AI-Powered Image Understanding System generating intelligent captions using deep learning and vision-language models.</p>
+            <a href="demo.html" class="btn-cta">Try the Demo</a>
+        </section>
+
+        <!-- Quick About Summary -->
+        <section id="about" class="split-section">
+            <div class="split-text">
+                <h2 class="title-gradient">What is VISIONARK?</h2>
+                <p>We are bridging the gap between computer vision and natural language processing. VISIONARK implements advanced multi-modal BLIP architectures to decipher visual nuances instantly.</p>
+                <a href="about.html" style="color:var(--primary); font-weight:600; text-decoration:none;">Learn more →</a>
+            </div>
+            <div class="split-image">
+                <img src="assets/about_vision_1776836868625.png" alt="AI Brain Vision">
+            </div>
+        </section>
+
+        <!-- Demo Hook -->
+        <section id="demo-preview" style="text-align:center;">
+            <h2 class="title-gradient" style="font-size:3em; margin-bottom: 20px;">Ready to test it?</h2>
+            <p style="font-size:1.2em; color:var(--text-muted); margin-bottom: 40px; max-width:600px;">Experience real-time AI perception. Upload an image, tweak creativity settings, and explore state-of-the-art captioning completely securely.</p>
+            <a href="demo.html" class="btn-cta" style="padding: 20px 60px; font-size:1.4em;">Launch Web App</a>
+        </section>
+
+        <!-- Blog Highlights -->
+        <section id="blogs" style="background: rgba(0,0,0,0.1); padding-top: 100px;">
+            <h2 class="title-gradient" style="font-size:3em; margin-bottom: 10px;">News & Development</h2>
+            <p style="font-size:1.2em; color:var(--text-muted); margin-bottom: 50px;">Read about our journey training caption models and advancing tech.</p>
+
+            <div class="grid-container" style="gap:20px; max-width:1000px;">
+                <div class="card" style="padding: 20px; text-align:left;">
+                    <h3 style="font-size: 1.3em;">Training AI for Smart Glasses</h3>
+                    <p style="font-size: 0.9em; margin-bottom:15px;">Discover the intense computational resources required to train lightweight models capable of live-captioning environments for visually impaired users.</p>
+                    <a href="blog-wearables.html" style="color:var(--primary); font-weight:600; text-decoration:none;">Read article →</a>
+                </div>
+                <div class="card" style="padding: 20px; text-align:left;">
+                    <h3 style="font-size: 1.3em;">How Denoising Improves Vision</h3>
+                    <p style="font-size: 0.9em; margin-bottom:15px;">Our newest algorithms handle extremely blurred imagery from autonomous vehicles using advanced Non-Local Means (NLM) heuristics.</p>
+                    <a href="blog-denoising.html" style="color:var(--primary); font-weight:600; text-decoration:none;">Read article →</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <h2 style="margin-bottom: 10px;" class="title-gradient">VISIONARK</h2>
+        <p>&copy; 2026 VISIONARK AI Labs. All rights reserved.</p>
+        <p style="font-size:0.9em; margin-top:10px;">Contact: systems@visionark.ai</p>
+    </footer>
+
+    <script>
+        function toggleTheme() {
+            const html = document.documentElement;
+            const btn = document.getElementById('themeToggle');
+            if(html.getAttribute('data-theme') === 'dark') {
+                html.setAttribute('data-theme', 'light');
+                btn.textContent = '🌙';
+                localStorage.setItem('theme', 'light');
+            } else {
+                html.setAttribute('data-theme', 'dark');
+                btn.textContent = '☀️';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        // Initialize Theme
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        document.getElementById('themeToggle').textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+    </script>
+</body>
+</html>

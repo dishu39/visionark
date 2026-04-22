@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - VISIONARK</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <nav>
+        <a href="index.html" class="logo">VISIONARK</a>
+        <div class="links">
+            <a href="index.html">Home</a>
+            <a href="about.html" class="active">About</a>
+            <a href="features.html">Features</a>
+            <a href="demo.html">Demo</a>
+            <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">☀️</button>
+        </div>
+    </nav>
+
+    <main>
+        <section style="justify-content: flex-start; padding-top: 150px;">
+            <div style="max-width: 800px; width: 100%; text-align: left;">
+                <h1 class="title-gradient" style="font-size: 3.5em; margin-bottom: 30px; text-align: center;">The VISIONARK Project</h1>
+                
+                <div class="card" style="margin-bottom: 30px;">
+                    <h3 style="margin-bottom:15px; color:var(--text-main); font-size: 1.8em;">What is VISIONARK?</h3>
+                    <p style="font-size: 1.2em;">VISIONARK is a next-generation AI pipeline built to extract high-level semantic meaning from visual inputs. By merging visual encoding with autoregressive language generation, VISIONARK empowers machines to see, understand, and describe the world.</p>
+                </div>
+
+                <div class="card" style="margin-bottom: 30px;">
+                    <h3 style="margin-bottom:15px; color:var(--text-main); font-size: 1.8em;">The Problem it Solves</h3>
+                    <p style="font-size: 1.2em;">Traditional computer vision focuses strictly on bounding boxes or object classes. Real-world applications require context. VISIONARK translates pixel data into human-readable narratives, handling heavily noisy images via advanced NLM and Bilateral reduction methods.</p>
+                </div>
+
+                <div class="card">
+                    <h3 style="margin-bottom:15px; color:var(--text-main); font-size: 1.8em;">The Architecture</h3>
+                    <p style="font-size: 1.2em;">Running locally, VISIONARK implements a lightweight FastAPI backend interfaced directly with a PyTorch BLIP architecture. It guarantees zero-latency edge computing with fully configurable beam search heuristics and temperature adjustments for deterministic or creative sampling.</p>
+                </div>
+                
+                <hr style="border: 0; border-top: 1px solid var(--glass-border); margin: 60px 0;">
+
+                <h1 class="title-gradient" style="font-size: 3em; margin-bottom: 30px; text-align: center;">Technical Articles</h1>
+                <div class="grid-container" style="gap:30px; grid-template-columns: 1fr 1fr; margin-top:0;">
+                    <div class="card" style="padding: 20px;">
+                        <h3 style="font-size: 1.3em;">Efficient Model Training</h3>
+                        <p style="font-size: 0.9em; margin-bottom:15px;">A deep dive into how we feed high-quality computational resources and datasets into our BLIP models, enabling high-performance precision.</p>
+                        <a href="blog-training.html" style="color:var(--primary); font-weight:600; text-decoration:none;">Read full article →</a>
+                    </div>
+                     <div class="card" style="padding: 20px;">
+                        <h3 style="font-size: 1.3em;">Latent Space Demystification</h3>
+                        <p style="font-size: 0.9em; margin-bottom:15px;">Understanding how temperature and beam width manipulate the latent space boundary arrays to generate creative interpretations.</p>
+                        <a href="blog-latent-space.html" style="color:var(--primary); font-weight:600; text-decoration:none;">Read full article →</a>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <h2 style="margin-bottom: 10px;" class="title-gradient">VISIONARK</h2>
+        <p>&copy; 2026 VISIONARK AI Labs. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function toggleTheme() {
+            const html = document.documentElement;
+            const btn = document.getElementById('themeToggle');
+            if(html.getAttribute('data-theme') === 'dark') {
+                html.setAttribute('data-theme', 'light');
+                btn.textContent = '🌙';
+                localStorage.setItem('theme', 'light');
+            } else {
+                html.setAttribute('data-theme', 'dark');
+                btn.textContent = '☀️';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        document.getElementById('themeToggle').textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+    </script>
+</body>
+</html>

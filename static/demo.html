@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo - VISIONARK</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body style="display: block;">
+
+    <nav>
+        <a href="index.html" class="logo">VISIONARK</a>
+        <div class="links">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="features.html">Features</a>
+            <a href="demo.html" class="active">Demo</a>
+            <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">☀️</button>
+        </div>
+    </nav>
+
+    <main style="padding-top: 50px;">
+        <div class="demo-container">
+            <!-- Status -->
+            <div id="status" class="status-badge offline" style="position:relative; float:right; top: -10px; right: 0;">
+                <div class="status-dot"></div>
+                <span id="statusText">Checking server...</span>
+            </div>
+
+            <header style="margin-bottom: 20px;">
+                <h1 style="font-size: 2.5em; text-align:left;">AI Demo Console</h1>
+            </header>
+
+            <div class="upload-area" id="uploadArea">
+                <div class="upload-icon" style="font-size: 3.5em; margin-bottom: 15px; color: var(--primary);">
+                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin: 0 auto; display: block;">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                        <polyline points="21 15 16 10 5 21"></polyline>
+                    </svg>
+                </div>
+                <p style="font-weight: 600; color: var(--text-main); font-size: 1.1em; margin-bottom: 5px;">Click to upload or drag and drop</p>
+                <p style="color: var(--text-muted); font-size: 0.85em;">Supports JPG, PNG, BMP, GIF formats</p>
+                <input type="file" id="fileInput" accept="image/*" style="display:none;">
+            </div>
+
+            <div class="preview-container" id="previewContainer" style="display:none; margin-bottom:30px; border-radius:16px; overflow:hidden;">
+                <img id="imagePreview" alt="Image Preview" style="width:100%; max-height:400px; object-fit:contain; display:block;">
+            </div>
+
+            <div class="controls-grid">
+                <div class="control-card">
+                    <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+                        <label for="denoiseMethod">Denoising</label>
+                    </div>
+                    <select id="denoiseMethod">
+                        <option value="">Auto-detect</option>
+                        <option value="none">None</option>
+                        <option value="nlm">NLM (Best)</option>
+                        <option value="bilateral">Bilateral</option>
+                    </select>
+                </div>
+
+                <div class="control-card">
+                    <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+                        <label for="maxTokens">Max Tokens</label>
+                    </div>
+                    <input type="number" id="maxTokens" value="60" min="20" max="100">
+                </div>
+
+                <div class="control-card">
+                    <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+                        <label for="numBeams">Analysis Beams</label>
+                    </div>
+                    <select id="numBeams">
+                        <option value="1">Fast (1 Beam)</option>
+                        <option value="3">Balanced (3 Beams)</option>
+                        <option value="5" selected>Best (5 Beams)</option>
+                        <option value="7">Max (7 Beams)</option>
+                    </select>
+                </div>
+
+                <div class="control-card">
+                    <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+                        <label for="temperature">Creativity</label>
+                    </div>
+                    <input type="range" id="temperature" value="0.9" min="0.1" max="2.0" step="0.1" oninput="document.getElementById('tempVal').innerText = this.value" style="width:100%; margin-top:10px;">
+                    <div style="text-align:right; font-size:0.85em; color:var(--primary); font-weight:600; margin-top:5px;"><span id="tempVal">0.9</span></div>
+                </div>
+            </div>
+
+            <div style="display:flex; align-items:center; justify-content:space-between; padding:15px 20px; background:rgba(0,0,0,0.1); border-radius:16px; margin-bottom:30px; border:1px solid var(--glass-border);">
+                <span style="font-weight:600; color:var(--text-main);">Auto-detect and reduce noise</span>
+                <label style="position:relative; display:inline-block; width:50px; height:28px;">
+                    <input type="checkbox" id="autodenoise" checked style="opacity:0; width:0; height:0;">
+                    <span style="position:absolute; cursor:pointer; top:0; left:0; right:0; bottom:0; background-color:var(--primary); border-radius:34px;"></span>
+                </label>
+            </div>
+
+            <button id="generateBtn" class="btn-cta" style="width:100%; border:none; display:flex; justify-content:center; align-items:center; gap:10px; cursor:pointer;" disabled>
+                Generate Caption
+            </button>
+
+            <!-- Loading UI -->
+            <div id="loading" style="display:none; text-align:center; margin:30px 0;">
+                <p style="font-size:1.2em; font-weight:600; color:var(--primary);">Analyzing image using AI model...</p>
+            </div>
+
+            <!-- Error UI -->
+            <div id="error" style="display:none; margin-top:20px; padding:16px; background:rgba(239,68,68,0.1); border-left:4px solid var(--danger); border-radius:12px; color:#b91c1c; font-weight:500;">
+                <span id="errorText"></span>
+            </div>
+
+            <!-- Result UI -->
+            <div id="resultContainer" style="display:none; margin-top:30px;">
+                <div style="background:var(--card-bg); border-radius:16px; padding:30px; border-left:6px solid var(--secondary);">
+                    <h3 style="color:var(--text-muted); font-size:0.9em; text-transform:uppercase; margin-bottom:10px;">Analysis Complete</h3>
+                    <div id="captionText" style="font-size:1.4em; color:var(--text-main); font-weight:600; margin-bottom:20px;"></div>
+                    <div style="display:flex; gap:15px;">
+                        <button onclick="copyCaption()" class="btn-cta" style="flex:1; padding:12px; font-size:1em; border:none; cursor:pointer;">Copy</button>
+                        <button onclick="speak()" class="btn-cta" style="flex:1; padding:12px; font-size:1em; border:none; cursor:pointer;">Speak</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer style="margin-top: 0;">
+        <h2 style="margin-bottom: 10px;" class="title-gradient">VISIONARK</h2>
+        <p>&copy; 2026 VISIONARK AI Labs. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function toggleTheme() {
+            const html = document.documentElement;
+            const btn = document.getElementById('themeToggle');
+            if(html.getAttribute('data-theme') === 'dark') {
+                html.setAttribute('data-theme', 'light');
+                btn.textContent = '🌙';
+                localStorage.setItem('theme', 'light');
+            } else {
+                html.setAttribute('data-theme', 'dark');
+                btn.textContent = '☀️';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        document.getElementById('themeToggle').textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+
+        const API_URL = "";
+        let selectedFile = null;
+
+        async function checkServer() {
+            const statusEl = document.getElementById('status');
+            const statusText = document.getElementById('statusText');
+            try {
+                const response = await fetch(`${API_URL}/health`);
+                const data = await response.json();
+                
+                if (data.status === 'healthy') {
+                    statusText.textContent = `Server Online (${data.device})`;
+                    statusEl.querySelector('.status-dot').style.background = 'var(--success)';
+                } else {
+                    statusText.textContent = 'Server Offline - Please start the API server';
+                    statusEl.querySelector('.status-dot').style.background = 'var(--danger)';
+                }
+            } catch (error) {
+                statusText.textContent = 'Cannot connect to server - Please start the API server';
+                statusEl.querySelector('.status-dot').style.background = 'var(--danger)';
+            }
+        }
+
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+        const previewContainer = document.getElementById('previewContainer');
+        const imagePreview = document.getElementById('imagePreview');
+        const generateBtn = document.getElementById('generateBtn');
+
+        uploadArea.addEventListener('click', () => fileInput.click());
+
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) handleFile(file);
+        });
+
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.style.borderColor = 'var(--primary)';
+        });
+
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.style.borderColor = '';
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.style.borderColor = '';
+            const file = e.dataTransfer.files[0];
+            if (file && file.type.startsWith('image/')) handleFile(file);
+        });
+
+        function handleFile(file) {
+            selectedFile = file;
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                imagePreview.src = e.target.result;
+                previewContainer.style.display = 'block';
+                generateBtn.disabled = false;
+                document.getElementById('resultContainer').style.display = 'none';
+                document.getElementById('error').style.display = 'none';
+            };
+            reader.readAsDataURL(file);
+        }
+
+        generateBtn.addEventListener('click', async () => {
+            if (!selectedFile) return;
+
+            const loading = document.getElementById('loading');
+            const error = document.getElementById('error');
+            const errorText = document.getElementById('errorText');
+            const resultContainer = document.getElementById('resultContainer');
+            const captionText = document.getElementById('captionText');
+
+            loading.style.display = 'block';
+            error.style.display = 'none';
+            resultContainer.style.display = 'none';
+            generateBtn.disabled = true;
+
+            try {
+                const formData = new FormData();
+                formData.append('file', selectedFile);
+                
+                const denoiseMethod = document.getElementById('denoiseMethod').value;
+                if (denoiseMethod) formData.append('denoise', denoiseMethod);
+                
+                formData.append('max_tokens', document.getElementById('maxTokens').value);
+                formData.append('num_beams', document.getElementById('numBeams').value);
+                formData.append('temperature', document.getElementById('temperature').value);
+                formData.append('auto_denoise', document.getElementById('autodenoise').checked);
+
+                const response = await fetch(`${API_URL}/caption`, { method: 'POST', body: formData });
+
+                if (!response.ok) throw new Error(`Server error: ${response.status}`);
+
+                const data = await response.json();
+
+                if (data.success) {
+                    captionText.textContent = data.caption;
+                    resultContainer.style.display = 'block';
+                } else {
+                    throw new Error('Caption generation failed');
+                }
+
+            } catch (err) {
+                errorText.textContent = `Error: ${err.message}. Make sure the API server is running.`;
+                error.style.display = 'flex';
+            } finally {
+                loading.style.display = 'none';
+                generateBtn.disabled = false;
+            }
+        });
+
+        function copyCaption() {
+            navigator.clipboard.writeText(document.getElementById('captionText').textContent).then(() => {
+                alert('Caption copied!');
+            });
+        }
+
+        function speak() {
+            const utterance = new SpeechSynthesisUtterance(document.getElementById('captionText').textContent);
+            utterance.rate = 0.9;
+            speechSynthesis.speak(utterance);
+        }
+
+        checkServer();
+        setInterval(checkServer, 30000);
+    </script>
+</body>
+</html>

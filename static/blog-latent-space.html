@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Latent Space Demystification - Blog</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav>
+        <a href="index.html" class="logo">VISIONARK</a>
+        <div class="links">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="features.html">Features</a>
+            <a href="demo.html">Demo</a>
+            <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">☀️</button>
+        </div>
+    </nav>
+
+    <main>
+        <section style="justify-content: flex-start; padding-top: 150px;">
+            <article style="max-width: 800px; width: 100%; text-align: left;">
+                <a href="about.html" style="color:var(--primary); font-weight:600; text-decoration:none; margin-bottom: 20px; display:inline-block;">← Back</a>
+                <h1 class="title-gradient" style="font-size: 3.5em; margin-bottom: 20px;">Latent Space Demystification</h1>
+                <p style="color:var(--text-muted); margin-bottom:40px;">Published in Theoretical AI • 7 min read</p>
+                
+                <div class="card" style="margin-bottom: 30px; font-size: 1.1em; line-height: 1.8;">
+                    <p style="margin-bottom:20px;">When adjusting the 'Temperature' and 'Analysis Beams' toggles in our Web Demo, you are actually reshaping the deterministic path tracing out from the model's latent embedding.</p>
+                    <p style="margin-bottom:20px;">Low temperatures collapse probability distributions around the safest, most statistically likely combinations of words. High temperatures flatten that distribution, letting the BLIP model take erratic but deeply creative leaps across the latent space to map pixels to obscure sentence structures.</p>
+                </div>
+            </article>
+        </section>
+    </main>
+
+    <footer>
+        <h2 style="margin-bottom: 10px;" class="title-gradient">VISIONARK</h2>
+        <p>&copy; 2026 VISIONARK AI Labs. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function toggleTheme() {
+            const html = document.documentElement;
+            const btn = document.getElementById('themeToggle');
+            if(html.getAttribute('data-theme') === 'dark') {
+                html.setAttribute('data-theme', 'light');
+                btn.textContent = '🌙';
+                localStorage.setItem('theme', 'light');
+            } else {
+                html.setAttribute('data-theme', 'dark');
+                btn.textContent = '☀️';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        document.getElementById('themeToggle').textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+    </script>
+</body>
+</html>
